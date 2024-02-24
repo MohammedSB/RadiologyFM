@@ -14,3 +14,5 @@ results/*
 *.swp
 
 .vscode/
+
+*venv*

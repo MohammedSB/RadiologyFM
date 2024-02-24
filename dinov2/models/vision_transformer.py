@@ -63,6 +63,7 @@ class DinoVisionTransformer(nn.Module):
         block_fn=Block,
         ffn_layer="mlp",
         block_chunks=1,
+        is_3d=False,
     ):
         """
         Args:
@@ -95,7 +96,7 @@ class DinoVisionTransformer(nn.Module):
         self.num_heads = num_heads
         self.patch_size = patch_size
 
-        self.patch_embed = embed_layer(img_size=img_size, patch_size=patch_size, in_chans=in_chans, embed_dim=embed_dim)
+        self.patch_embed = embed_layer(img_size=img_size, patch_size=patch_size, in_chans=in_chans, embed_dim=embed_dim, is_3d=is_3d)
         num_patches = self.patch_embed.num_patches
 
         self.cls_token = nn.Parameter(torch.zeros(1, 1, embed_dim))

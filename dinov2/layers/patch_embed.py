@@ -43,6 +43,7 @@ class PatchEmbed(nn.Module):
         embed_dim: int = 768,
         norm_layer: Optional[Callable] = None,
         flatten_embedding: bool = True,
+        is_3d: bool = False,
     ) -> None:
         super().__init__()
 
@@ -63,7 +64,10 @@ class PatchEmbed(nn.Module):
 
         self.flatten_embedding = flatten_embedding
 
-        self.proj = nn.Conv2d(in_chans, embed_dim, kernel_size=patch_HW, stride=patch_HW)
+        if is_3d:
+            self.proj = nn.Conv3d(in_chans, embed_dim, kernel_size=patch_HW, stride=patch_HW)
+        else:
+            self.proj = nn.Conv2d(in_chans, embed_dim, kernel_size=patch_HW, stride=patch_HW)
         self.norm = norm_layer(embed_dim) if norm_layer else nn.Identity()
 
     def forward(self, x: Tensor) -> Tensor:
